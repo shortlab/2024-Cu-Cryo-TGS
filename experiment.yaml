@@ -1,0 +1,58 @@
+material:
+    name: Cu-110
+    surface_plane: [1, -1, 0]
+    atomic_mass: 63.546 # g mol^-1
+    mass_density: 8912.9293 # kg m^-3
+    yield_strength: 248.2113 # MPa
+    elastic_modulus: 117.21 # GPa
+    poisson_ratio: 0.34
+    C11: 169.1 # GPa
+    C12: 122.2 # GPa
+    C44: 75.4 # GPa
+
+tgs:
+    cooldown:
+        path: data/tgs/cooldown
+        temperature_path: data/temperature/Cu_temperature.csv
+        grating: 3.5276 # µm
+    irradiation:
+        path: data/tgs/irradiation
+        srim_path: data/srim/VACANCY.txt
+        grating_spacing: 3.5276 # µm
+        start_current: 1.0e-9 # A
+        end_current: 0.1e-9 # A
+        ion_charge: 6 # e
+        beam_aperture: 2.00 # mm
+        duration: 2100 # s
+
+temperature:
+    ref_path: data/temperature/ref.csv
+    ref_offset: 1200 # s
+    tgs_path: data/temperature/tgs_ion.csv
+    tgs_offset: 2400 # s
+    ion_path: data/temperature/tgs_ion.csv
+    ion_offset: 14400 # s
+    ref_tgs_duration: 11700 # s
+    ion_duration: 2400 # s
+    zoom_duration: 2471 # s
+
+heat_load:
+    cryohead_path: data/cryohead
+    values:
+        k_steel: 16.3  # W m^-1 K^-1
+        k_ceramic: 1.46  # W m^-1 K^-1
+        L^stage_steel: 0.04  # m
+        A^stage_steel: 7.854e-5  # m^2
+        L^stage_ceramic: 0.08  # m
+        A^stage_ceramic: 7.85e-5  # m^2
+        L^gimbal_steel: 0.076  # m
+        A^gimbal_steel: 3.50e-5  # m^2
+        L^axis_ceramic: 0.015  # m
+        A^axis_ceramic: 6.57e-5  # m^2
+        T_ambient: 298  # K
+        A_chamber: 0.121  # m^2
+        sigma: 5.67e-8  # W m^-2 K^-4
+        epsilon_steel: 0.16
+        P_TGS: 3.66e-3  # W
+        E_ion: 12.4e+6  # eV
+        I_ion: 4.5e-10  # A

@@ -1,0 +1,13 @@
+pyyaml
+pyserial
+
+numpy
+pandas
+scipy
+scikit-learn
+sympy
+
+matplotlib
+plotly
+dash
+brokenaxes
