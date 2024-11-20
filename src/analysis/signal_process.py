@@ -5,7 +5,7 @@ from scipy.signal import find_peaks
 
 from src.core.path import Paths
 from src.core.utils import read_data
-from src.core.plots import plot_signal_processed
+from src.core.plot import plot_signal_processed
 
 
 PROMINENCE_FACTOR = 5

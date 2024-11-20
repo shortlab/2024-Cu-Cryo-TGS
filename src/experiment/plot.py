@@ -2,6 +2,7 @@ import numpy as np
 from brokenaxes import brokenaxes
 from matplotlib import pyplot as plt
 from matplotlib.ticker import MultipleLocator
+from mpl_toolkits.mplot3d import Axes3D
 
 import matplotlib
 matplotlib.rcParams['font.family'] = 'Times New Roman'
@@ -48,7 +49,7 @@ def plot_time_vs_alpha_saw_temperature(df):
 
 def plot_fluence_vs_alpha(df):
 
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(12, 8))
     plt.errorbar(df['fluence[ionsm^-2]'] * 1e-17, 
                  df['alpha[m^2s^-1]'] * 1e5, 
                  yerr=df['alpha_err[m^2s^-1]'] * 1e5, 
@@ -107,7 +108,7 @@ def plot_dpa_vs_saw(df):
 
 def plot_fluence_vs_saw(df):
 
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(12, 8))
     plt.errorbar(df['fluence[ionsm^-2]'] * 1e-17, 
                  df['f[Hz]'] * df['grating_spacing[µm]'] * 1e-6, 
                  yerr=df['f_err[Hz]'] * df['grating_spacing[µm]'] * 1e-6, 
@@ -125,28 +126,6 @@ def plot_fluence_vs_saw(df):
     
     plt.tight_layout()
     plt.savefig('figures/fluence_vs_saw.png', dpi=600)
-
-def plot_depth_vs_dpa(df):
-
-    plt.figure(figsize=(10, 6))
-    plt.plot(df['depth[um]'], df['dpa'] * 1e3, marker='o', linestyle='-', color='purple')
-    plt.axvline(x=1.12, color='red', linestyle='--', linewidth=2)
-
-    plt.text(1.12, 1, 'TGS Probe Depth', rotation=90, ha='right', va='bottom', color='red', fontsize=16)
-    plt.xlabel('Depth [μm]', fontsize=16, labelpad=10)
-    plt.ylabel('Displacements per Atom [mdpa]', fontsize=16, labelpad=10)
-    plt.xticks(fontsize=12)
-    plt.yticks(fontsize=12)
-    plt.ylim(0, 40)
-    plt.xlim(0.0, 3)
-
-    ax = plt.gca()
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
-    plt.grid(True, which='both', linestyle='--', linewidth=0.75)
-
-    plt.tight_layout()
-    plt.savefig('figures/depth_vs_dpa.png', dpi=600)
 
 def plot_time_vs_temperature(ref_df, tgs_df, ion_df, ref_tgs_time, ion_time):
 
@@ -193,3 +172,50 @@ def plot_time_vs_temperature_zoom(ref_df, tgs_df, ion_df, ref_tgs_time, ion_time
         ax.yaxis.set_major_locator(MultipleLocator(0.5))
 
     plt.savefig('figures/time_vs_temperature_zoom.png', dpi=600)
+
+def plot_depth_vs_dpa(df):
+    fig = plt.figure(figsize=(12, 8))
+    gs = plt.GridSpec(1, 1)
+    
+    ax_main = plt.subplot(gs[0, :])
+    levels = np.linspace(0, max(df['dpa'] * 1e3), 100)
+    for i in range(len(levels)-1):
+        ax_main.fill_between(df['depth[um]'], 
+                           df['dpa'] * 1e3,
+                           where=(df['dpa'] * 1e3 >= levels[i]),
+                           color='purple',
+                           alpha=0.01)
+    probe_depth = 1.12
+    pattern = '//'
+    ax_main.fill_between([0, probe_depth], 0, 40,
+                        color='red', alpha=0.1,
+                        hatch=pattern)
+    
+    ax_main.plot(df['depth[um]'], df['dpa'] * 1e3, 
+                color='purple', linewidth=2)
+    ax_main.axvline(x=probe_depth, color='red', 
+                    linestyle='--', linewidth=2)
+    
+    stats_text = (
+        f"TGS Probe Depth: {probe_depth} μm\n"
+        f"Mean Damage (0-{probe_depth} μm): {df[df['depth[um]'] <= probe_depth]['dpa'].mean() * 1e3:.1f} mdpa"
+    )
+    ax_main.text(0.985, 0.98, stats_text,
+                transform=ax_main.transAxes,
+                bbox=dict(facecolor='white', alpha=0.8),
+                ha='right', va='top', fontsize=16)
+    
+    ax_main.text(probe_depth/2, 33.5, 'TGS Probe\nRegion',
+                ha='center', va='top', fontsize=18,
+                color='red', alpha=0.8)
+    
+    ax_main.tick_params(axis='both', which='major', labelsize='large')
+    
+    ax_main.set_xlabel('Depth [μm]', fontsize=16)
+    ax_main.set_ylabel('Displacements per Atom [mdpa]', fontsize=16)
+    ax_main.grid(True, alpha=0.3)
+    ax_main.set_ylim(0, 40)
+    ax_main.set_xlim(0.0, 3)
+    
+    plt.tight_layout()
+    plt.savefig('figures/depth_vs_dpa.png', dpi=600)

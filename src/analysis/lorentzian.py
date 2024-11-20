@@ -5,7 +5,7 @@ from scipy.optimize import curve_fit
 
 from src.core.path import Paths
 from src.analysis.functions import lorentzian_function
-from src.core.plots import plot_fft_lorentzian
+from src.core.plot import plot_fft_lorentzian
 
 
 def lorentzian_fit(paths: Paths, file_idx: int, fft: np.ndarray, signal_proportion: float = 1.0, frequency_bounds: List[Union[float, float]] = [0.1, 0.9], dc_filter_range: List[Union[int, int]] = [0, 12000], bimodal_fit: bool = False, plot: bool = False) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, float]:

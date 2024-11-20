@@ -8,7 +8,7 @@ from src.analysis.signal_process import process_signal
 from src.analysis.fft import fft
 from src.analysis.lorentzian import lorentzian_fit
 from src.analysis.functions import tgs_function
-from src.core.plots import plot_tgs, plot_combined
+from src.core.plot import plot_tgs, plot_combined
 
 def tgs_fit(config: dict, paths: Paths, file_idx: int, pos_file: str, neg_file: str, grating_spacing: float, plot: bool = False) -> Tuple[Union[float, np.ndarray]]:
     """
