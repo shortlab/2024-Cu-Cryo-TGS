@@ -42,6 +42,7 @@ def plot_tgs(paths, file_idx, signal, start_idx, functional_function, thermal_fu
     save_path = save_dir / f'tgs-{file_idx:04d}.png'
     plt.savefig(save_path, dpi=600)
     plt.close()
+    
 def plot_fft_lorentzian(paths, file_idx, fft, frequency_bounds, lorentzian_function, popt):
     frequencies, amplitudes = fft[:, 0], fft[:, 1]
     

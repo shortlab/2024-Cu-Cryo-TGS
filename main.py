@@ -8,10 +8,10 @@ from src.experiment.temperature import Temperature
 
 if __name__ == '__main__':
 
-    # with open('config.yaml', "r") as file: config = yaml.safe_load(file)
+    with open('config.yaml', "r") as file: config = yaml.safe_load(file)
 
-    # analyzer = TGSAnalyzer(config)
-    # analyzer.fit()
+    analyzer = TGSAnalyzer(config)
+    analyzer.fit()
     
     with open('experiment.yaml', "r") as file: experiment_config = yaml.safe_load(file)
 
@@ -19,8 +19,8 @@ if __name__ == '__main__':
     irradiation = Irradiation(experiment_config['tgs']['irradiation'], material)
     irradiation.plot()
 
-    # heat_load_study = HeatLoadStudy(experiment_config['heat_load'])
-    # heat_load_study.estimate()
+    heat_load_study = HeatLoadStudy(experiment_config['heat_load'])
+    heat_load_study.estimate()
 
-    # temperature = Temperature(experiment_config['temperature'])
-    # temperature.plot()
+    temperature = Temperature(experiment_config['temperature'])
+    temperature.plot()
