@@ -11,7 +11,7 @@ Data and code repository for Akarsh's FUSars paper on cryogenic TGS during ion i
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/auroraaka/tgs.git
+   git clone https://github.com/shortlab/2024-Cu-Cryo-TGS.git
    cd tgs
    ```
 
@@ -32,11 +32,11 @@ Data and code repository for Akarsh's FUSars paper on cryogenic TGS during ion i
 
    **Manual Installation (Windows/Unix/MacOS):**
    ```bash
-   python -m venv tgs-venv
+   python -m venv cryiotgs-venv
    # On Windows:
-   tgs-venv\Scripts\activate
+   cryiotgs-venv\Scripts\activate
    # On Unix/MacOS:
-   source tgs-venv/bin/activate
+   source cryiotgs-venv/bin/activate
    
    pip install --upgrade pip
    pip install -e .  # or pip install -r requirements.txt
@@ -48,20 +48,16 @@ Data and code repository for Akarsh's FUSars paper on cryogenic TGS during ion i
    
    **On Unix/MacOS:**
    ```bash
-   source tgs-venv/bin/activate
+   source cryiotgs-venv/bin/activate
    ```
    
    **On Windows:**
    ```bash
-   tgs-venv\Scripts\activate
+   cryiotgs-venv\Scripts\activate
    ```
 
-2. Edit `config.yaml` with your data path and desired fitting parameters.
-
-3. Run the analysis:
+2. Run the codebase:
    ```bash
    python main.py
    ```
-
-   Fitting results and figures will be saved in `fit/` and `figures/` directories, respectively.
-   You can view example input/output files in the `data/` directory.
+   

@@ -10,8 +10,6 @@ if __name__ == '__main__':
 
     with open('config.yaml', "r") as file: config = yaml.safe_load(file)
 
-    config['path'] = 'data/tgs/irradiation'
-    config['idxs'] = list(range(1, 41))
     analyzer = TGSAnalyzer(config)
     analyzer.fit()
     
