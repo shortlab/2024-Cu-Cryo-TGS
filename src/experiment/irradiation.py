@@ -8,7 +8,9 @@ from src.experiment.material import Material
 from src.experiment.plot import (
     plot_depth_vs_dpa,
     plot_fluence_vs_alpha,
+    plot_dpa_vs_alpha,
     plot_fluence_vs_saw,
+    plot_dpa_vs_saw,
 )
 from src.experiment.utils import read_fits, read_srim, chi_square_filter
 
@@ -28,8 +30,7 @@ class Irradiation:
         self.beam_aperture = config['beam_aperture']
         self.beam_area = math.pi * (self.beam_aperture * 0.001 / 2) * (self.beam_aperture * 0.001 / math.sqrt(2))
         self.total_fluence = self.total_ions / self.beam_area / 10000
-        self.m = (self.end_current - self.start_current) / self.duration
-        self.b = self.start_current
+        print(self.total_fluence)
         
         self.material = material
         self.atomic_density = material.atomic_density
@@ -46,6 +47,7 @@ class Irradiation:
         tgs_df['dpa'] = tgs_df['time[s]'].apply(lambda t: self.dpa(K_tgs, t))
 
         tgs_df = chi_square_filter(tgs_df, 'time[s]', 'f[Hz]', confidence=0.95)
+        print(tgs_df['time[min]'].iloc[-1], tgs_df['dpa'].iloc[-1], tgs_df['fluence[ionsm^-2]'].iloc[-1])
 
         tgs_df.to_csv(os.path.join(self.path, 'process', 'irradiation.csv'), index=False)
         srim_df.to_csv(os.path.join(os.path.dirname(self.srim_path), 'srim.csv'), index=False)
@@ -53,16 +55,18 @@ class Irradiation:
     
     def plot(self) -> None:
         plot_fluence_vs_alpha(self.tgs_df)
+        plot_dpa_vs_alpha(self.tgs_df)
         plot_fluence_vs_saw(self.tgs_df)
+        plot_dpa_vs_saw(self.tgs_df)
         plot_depth_vs_dpa(self.srim_df)
 
     def I(self, t: float) -> float:
         """Calculate the beam current at time t."""
-        return self.m * t + self.b
+        return self.average_current
 
     def Q(self, t: float) -> float:
         """Calculate the integral of the beam current up to time t."""
-        return self.m * t ** 2 / 2 + self.b * t
+        return self.average_current * t
 
     def Phi(self, t: float) -> float:
         """Calculate the fluence at time t."""

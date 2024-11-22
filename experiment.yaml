@@ -23,7 +23,7 @@ tgs:
         end_current: 0.1e-9 # A
         ion_charge: 6 # e
         beam_aperture: 2.00 # mm
-        duration: 2100 # s
+        duration: 1800 # s
 
 temperature:
     ref_path: data/temperature/ref.csv

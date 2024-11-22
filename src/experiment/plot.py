@@ -70,7 +70,7 @@ def plot_fluence_vs_alpha(df):
 
 
 def plot_dpa_vs_alpha(df):
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(12, 8))
     plt.errorbar(df['dpa'], df['alpha[m^2s^-1]'] * 1e5, 
                 yerr=df['alpha_err[m^2s^-1]'] * 1e5, 
                 fmt='o', linestyle='none', capsize=5, color='red')
@@ -89,7 +89,7 @@ def plot_dpa_vs_alpha(df):
 
 def plot_dpa_vs_saw(df):
     
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(12, 8))
     plt.errorbar(df['dpa'], df['f[Hz]'] * df['grating_spacing[µm]'] * 1e-6, 
                 yerr=df['f_err[Hz]'] * df['grating_spacing[µm]'] * 1e-6, 
                 fmt='o', linestyle='none', capsize=5, color='blue')
@@ -196,9 +196,10 @@ def plot_depth_vs_dpa(df):
     ax_main.axvline(x=probe_depth, color='red', 
                     linestyle='--', linewidth=2)
     
+    probe_dpa = np.interp(probe_depth, df['depth[um]'], df['dpa'] * 1e3)
     stats_text = (
         f"TGS Probe Depth: {probe_depth} μm\n"
-        f"Mean Damage (0-{probe_depth} μm): {df[df['depth[um]'] <= probe_depth]['dpa'].mean() * 1e3:.1f} mdpa"
+        f"Probe Depth Damage: {probe_dpa:.1f} mdpa"
     )
     ax_main.text(0.985, 0.98, stats_text,
                 transform=ax_main.transAxes,
