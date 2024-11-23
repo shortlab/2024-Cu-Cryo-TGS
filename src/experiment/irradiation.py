@@ -30,7 +30,6 @@ class Irradiation:
         self.beam_aperture = config['beam_aperture']
         self.beam_area = math.pi * (self.beam_aperture * 0.001 / 2) * (self.beam_aperture * 0.001 / math.sqrt(2))
         self.total_fluence = self.total_ions / self.beam_area / 10000
-        print(self.total_fluence)
         
         self.material = material
         self.atomic_density = material.atomic_density
@@ -47,7 +46,6 @@ class Irradiation:
         tgs_df['dpa'] = tgs_df['time[s]'].apply(lambda t: self.dpa(K_tgs, t))
 
         tgs_df = chi_square_filter(tgs_df, 'time[s]', 'f[Hz]', confidence=0.95)
-        print(tgs_df['time[min]'].iloc[-1], tgs_df['dpa'].iloc[-1], tgs_df['fluence[ionsm^-2]'].iloc[-1])
 
         tgs_df.to_csv(os.path.join(self.path, 'process', 'irradiation.csv'), index=False)
         srim_df.to_csv(os.path.join(os.path.dirname(self.srim_path), 'srim.csv'), index=False)

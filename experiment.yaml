@@ -49,10 +49,11 @@ heat_load:
         A^gimbal_steel: 3.50e-5  # m^2
         L^axis_ceramic: 0.015  # m
         A^axis_ceramic: 6.57e-5  # m^2
-        T_ambient: 298  # K
-        A_chamber: 0.121  # m^2
+        T_A: 298  # K
+        S: 0.121  # m^2
         sigma: 5.67e-8  # W m^-2 K^-4
-        epsilon_steel: 0.16
-        P_TGS: 3.66e-3  # W
+        epsilon: 0.16
+        P_tgs: 3.66e-3  # W
         E_ion: 12.4e+6  # eV
         I_ion: 4.5e-10  # A
+        C: 1.25 # W K^-1

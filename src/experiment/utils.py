@@ -151,8 +151,3 @@ def solve_equation(equation: Expr, variable: str, values: Dict[str, float], init
     solutions = [optimize.fsolve(equation_func, guess)[0] for guess in initial_guesses]
     
     return solutions[0] if np.allclose(solutions, solutions[0], atol=1e-2) else solutions
-    
-def display_equations(equations: Dict[str, Expr]) -> None:
-    """Print symbolic equations in LaTeX format."""
-    for name, eq in equations.items():
-        print(f"{name} = {latex(eq)}")
