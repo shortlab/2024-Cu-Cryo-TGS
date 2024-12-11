@@ -75,6 +75,7 @@ def plot_fft_lorentzian(paths, file_idx, fft, frequency_bounds, lorentzian_funct
     save_path = save_dir / f'fft-lorentzian-{file_idx:04d}.png'
     plt.savefig(save_path, dpi=600)
     plt.close()
+    
 def plot_signal_processed(paths, file_idx, signal, max_time, start_time):
     time, amplitude = signal[:NUM_POINTS, 0], signal[:NUM_POINTS, 1]
     
@@ -105,54 +106,47 @@ def plot_signal_processed(paths, file_idx, signal, max_time, start_time):
 
 def plot_combined(paths, file_idx, signal, max_time, start_time, start_idx, functional_function, thermal_function, tgs_popt,
                  fft, frequency_bounds, lorentzian_function, lorentzian_popt):
-    fig = plt.figure(figsize=(15, 6))
-    gs = plt.GridSpec(2, 2, width_ratios=[1.5, 1])
+    fig = plt.figure(figsize=(10, 6))
     
-    ax1 = fig.add_subplot(gs[:, 0])
+    ax1 = plt.gca()
     x_raw, y_raw = signal[:NUM_POINTS, 0], signal[:NUM_POINTS, 1]
     x_fit = signal[start_idx:NUM_POINTS, 0]
     ax1.plot(x_raw * 1e9, y_raw * 1e3, '-k', linewidth=2, label='Signal')
     ax1.plot(x_fit * 1e9, functional_function(x_fit, *tgs_popt) * 1e3, '-b', linewidth=2, label='Functional Fit')
     ax1.plot(x_fit * 1e9, thermal_function(x_fit, *tgs_popt) * 1e3, '-r', linewidth=2, label='Thermal Fit')
-    ax1.set_xlabel('Time [ns]', fontsize=14, labelpad=10)
-    ax1.set_ylabel('Signal Amplitude [mV]', fontsize=14, labelpad=10)
-    ax1.tick_params(labelsize=10)
+    ax1.set_xlabel('Time [ns]', fontsize=18, labelpad=10)
+    ax1.set_ylabel('Signal Amplitude [mV]', fontsize=18, labelpad=10)
+    ax1.tick_params(labelsize=14)
+    ax1.set_xlim(0, 20)
     ax1.grid(True, which='both', linestyle='--', linewidth=0.75)
-    ax1.legend(fontsize=12)
+    ax1.legend(fontsize=14, loc='lower right', framealpha=1.0)
     ax1.spines['top'].set_visible(False)
     ax1.spines['right'].set_visible(False)
-    
-    ax2 = fig.add_subplot(gs[0, 1])
+
+    inset_position = [0.517, 0.54, 0.42, 0.42]
+    background = plt.Rectangle((inset_position[0] - 0.06, inset_position[1] - 0.075),
+                             inset_position[2] + 0.09, inset_position[3] + 0.09,
+                             facecolor='white', edgecolor='black', transform=fig.transFigure,
+                             zorder=2)
+    fig.patches.append(background)
+
+    ax2 = fig.add_axes(inset_position, zorder=3)
     frequencies, amplitudes = fft[:, 0], fft[:, 1]
-    ax2.plot(frequencies, amplitudes, '-k', linewidth=2, label='FFT Signal')
+    ax2.plot(frequencies, amplitudes, '-k', linewidth=1.5, label='FFT Signal')
     x_smooth = np.linspace(min(frequencies), max(frequencies), 1000)
     y_fit = lorentzian_function(x_smooth, *lorentzian_popt)
-    ax2.plot(x_smooth, y_fit, '--r', linewidth=2, label='Lorentzian Fit')
+    ax2.plot(x_smooth, y_fit, '--r', linewidth=1.5, label='Lorentzian Fit')
     y_range = ax2.get_ylim()
-    ax2.vlines(frequency_bounds[0], y_range[0], y_range[1], color='purple', linestyle='--', linewidth=2, label='Frequency Bounds')
-    ax2.vlines(frequency_bounds[1], y_range[0], y_range[1], color='purple', linestyle='--', linewidth=2)
+    ax2.vlines(frequency_bounds[0], y_range[0], y_range[1], color='purple', linestyle='--', linewidth=1.5, label='Frequency Bounds')
+    ax2.vlines(frequency_bounds[1], y_range[0], y_range[1], color='purple', linestyle='--', linewidth=1.5)
     ax2.set_xlim(0, 1)
-    ax2.set_xlabel('Frequency [GHz]', fontsize=14, labelpad=10)
-    ax2.set_ylabel('Intensity [A.U.]', fontsize=14, labelpad=10)
+    ax2.set_xlabel('Frequency [GHz]', fontsize=10)
+    ax2.set_ylabel('Intensity [A.U.]', fontsize=10)
     ax2.tick_params(labelsize=10)
-    ax2.grid(True, which='both', linestyle='--', linewidth=0.75)
-    ax2.legend(fontsize=10)
+    ax2.grid(True, which='both', linestyle='--', linewidth=0.5)
+    ax2.legend(fontsize=10, loc='upper right', framealpha=1.0)
     ax2.spines['top'].set_visible(False)
     ax2.spines['right'].set_visible(False)
-    
-    ax3 = fig.add_subplot(gs[1, 1])
-    time, amplitude = signal[:NUM_POINTS, 0], signal[:NUM_POINTS, 1]
-    ax3.plot(time * 1e9, amplitude * 1e3, '-k', linewidth=2, label='Signal')
-    y_range = ax3.get_ylim()
-    ax3.vlines(max_time * 1e9, y_range[0], y_range[1], color='blue', linestyle='--', linewidth=2, label='Max Time')
-    ax3.vlines(start_time * 1e9, y_range[0], y_range[1], color='red', linestyle='--', linewidth=2, label='Start Time')
-    ax3.set_xlabel('Time [ns]', fontsize=14, labelpad=10)
-    ax3.set_ylabel('Signal Amplitude [mV]', fontsize=14, labelpad=10)
-    ax3.tick_params(labelsize=10)
-    ax3.grid(True, which='both', linestyle='--', linewidth=0.75)
-    ax3.legend(fontsize=10)
-    ax3.spines['top'].set_visible(False)
-    ax3.spines['right'].set_visible(False)
     
     plt.tight_layout()
     
@@ -161,6 +155,7 @@ def plot_combined(paths, file_idx, signal, max_time, start_time, start_idx, func
     save_path = save_dir / f'combined-{file_idx:04d}.png'
     plt.savefig(save_path, dpi=600, bbox_inches='tight')
     plt.close()
+    
 def create_app(signal_data, fit):
     app = dash.Dash(__name__)
     num_plots = len(signal_data)
