@@ -66,7 +66,7 @@ class TGSAnalyzer:
             if not (file_prefix := get_file_prefix(self.paths.data_dir, i)):
                 print(f"Could not find file prefix for signal {i}")
                 continue
-            # TODO: plot raw signal under failure case
+
             pos_file = self.paths.data_dir / f'{file_prefix}-POS-{i}.txt'
             neg_file = self.paths.data_dir / f'{file_prefix}-NEG-{i}.txt'
 
@@ -80,5 +80,3 @@ class TGSAnalyzer:
 
         fit_data.to_csv(self.paths.fit_path, index=False)
         with open(self.paths.signal_path, 'w') as f: json.dump(signals, f)
-
-        # TODO: fit summary

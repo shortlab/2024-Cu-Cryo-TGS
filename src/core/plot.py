@@ -148,8 +148,6 @@ def plot_combined(paths, file_idx, signal, max_time, start_time, start_idx, func
     ax2.spines['top'].set_visible(False)
     ax2.spines['right'].set_visible(False)
     
-    plt.tight_layout()
-    
     save_dir = paths.figure_dir / 'combined'
     save_dir.mkdir(parents=True, exist_ok=True)
     save_path = save_dir / f'combined-{file_idx:04d}.png'

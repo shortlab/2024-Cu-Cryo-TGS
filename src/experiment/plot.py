@@ -51,14 +51,14 @@ def plot_fluence_vs_alpha(df):
 
     plt.figure(figsize=(12, 8))
     plt.errorbar(df['fluence[ionsm^-2]'] * 1e-17, 
-                 df['alpha[m^2s^-1]'] * 1e5, 
-                 yerr=df['alpha_err[m^2s^-1]'] * 1e5, 
+                 df['alpha[m^2s^-1]'] * 1e4, 
+                 yerr=df['alpha_err[m^2s^-1]'] * 1e4, 
                  fmt='o', linestyle='none', capsize=5, color='#B23A4A',
                  label='TGS Measured Data', zorder=3)
     
     x = df['fluence[ionsm^-2]'] * 1e-17
-    y = df['alpha[m^2s^-1]'] * 1e5
-    errors = df['alpha_err[m^2s^-1]'] * 1e5
+    y = df['alpha[m^2s^-1]'] * 1e4
+    errors = df['alpha_err[m^2s^-1]'] * 1e4
     
     sort_idx = np.argsort(x)
     x_sorted = x.iloc[sort_idx]
@@ -80,7 +80,7 @@ def plot_fluence_vs_alpha(df):
              label='Moving Average', zorder=2)
     
     plt.xlabel('Fluence [10$^{17}$ ions m$^{-2}$]', fontsize=18, labelpad=10)
-    plt.ylabel('Thermal Diffusivity [10$^{-5}$ m$^2$s$^{-1}$]', fontsize=18, labelpad=10)
+    plt.ylabel('Thermal Diffusivity [10$^{-4}$ m$^2$s$^{-1}$]', fontsize=18, labelpad=10)
     plt.xticks(fontsize=16)
     plt.yticks(fontsize=16)
     plt.grid(True, which='both', linestyle='--', linewidth=0.75)
@@ -94,15 +94,16 @@ def plot_fluence_vs_alpha(df):
     plt.savefig('figures/fluence_vs_alpha.png', dpi=600)
 
 def plot_dpa_vs_alpha(df):
+
     plt.figure(figsize=(12, 8))
-    plt.errorbar(df['dpa'], df['alpha[m^2s^-1]'] * 1e5, 
-                yerr=df['alpha_err[m^2s^-1]'] * 1e5, 
+    plt.errorbar(df['dpa'], df['alpha[m^2s^-1]'] * 1e4, 
+                yerr=df['alpha_err[m^2s^-1]'] * 1e4, 
                 fmt='o', linestyle='none', capsize=5, color='#B23A4A',
                 label='TGS Measured Data', zorder=3)
     
     x = df['dpa']
-    y = df['alpha[m^2s^-1]'] * 1e5
-    errors = df['alpha_err[m^2s^-1]'] * 1e5
+    y = df['alpha[m^2s^-1]'] * 1e4
+    errors = df['alpha_err[m^2s^-1]'] * 1e4
     
     sort_idx = np.argsort(x)
     x_sorted = x.iloc[sort_idx]
@@ -124,7 +125,7 @@ def plot_dpa_vs_alpha(df):
              label='Moving Average', zorder=2)
     
     plt.xlabel('Dpa', fontsize=18, labelpad=10)
-    plt.ylabel('Thermal Diffusivity [10$^{-5}$ m$^2$s$^{-1}$]', fontsize=18, labelpad=10)
+    plt.ylabel('Thermal Diffusivity [10$^{-4}$ m$^2$s$^{-1}$]', fontsize=18, labelpad=10)
     plt.xticks(fontsize=16)
     plt.yticks(fontsize=16)
     plt.grid(True, which='both', linestyle='--', linewidth=0.75)
@@ -138,6 +139,7 @@ def plot_dpa_vs_alpha(df):
     plt.savefig('figures/dpa_vs_alpha.png', dpi=600)
 
 def plot_dpa_vs_saw(df):
+
     plt.figure(figsize=(12, 8))
     plt.errorbar(df['dpa'], df['f[Hz]'] * df['grating_spacing[µm]'] * 1e-6, 
                 yerr=df['f_err[Hz]'] * df['grating_spacing[µm]'] * 1e-6, 
@@ -248,6 +250,7 @@ def plot_time_vs_temperature(ref_df, tgs_df, ion_df, ref_tgs_time, ion_time):
     plt.savefig('figures/time_vs_temperature.png', dpi=600)
 
 def plot_time_vs_temperature_zoom(ref_df, tgs_df, ion_df, ref_tgs_time, ion_time, zoom_duration):
+
     ref_df_zoom = ref_df[-zoom_duration:]
     tgs_df_zoom = tgs_df[-zoom_duration:]
     ion_df_zoom = ion_df
@@ -272,6 +275,7 @@ def plot_time_vs_temperature_zoom(ref_df, tgs_df, ion_df, ref_tgs_time, ion_time
     plt.savefig('figures/time_vs_temperature_zoom.png', dpi=600)
 
 def plot_depth_vs_dpa(df):
+    
     fig = plt.figure(figsize=(10, 6))
     gs = plt.GridSpec(1, 1)
     

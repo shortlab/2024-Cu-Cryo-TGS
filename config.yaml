@@ -5,7 +5,7 @@ idxs: null  # indices of files to fit (null for all)
 # Signal Processing
 signal_process:
   heterodyne: di-homodyne  # detection method: 'di-homodyne' or 'mono-homodyne'
-  null_point: 2  # null point selection (valid range: 1-4)
+  null_point: 1  # null point selection (valid range: 1-4)
   plot: false  # enable/disable processed signal visualization
 
 # FFT Analysis
@@ -18,7 +18,7 @@ fft:
 # Lorentzian Fitting
 lorentzian:
   signal_proportion: 1.0  # proportion of signal to use for fitting (0.0 to 1.0)
-  frequency_bounds: [0.1, 0.9]  # frequency range for fitting [GHz]
+  frequency_bounds: [0.1, 0.6]  # frequency range for fitting [GHz]
   dc_filter_range: [0, 12000]  # DC filtering range [Hz]
   bimodal_fit: false  # enable bimodal Lorentzian fitting
   plot: false  # enable/disable FFT and Lorentzian fit visualization
@@ -26,4 +26,5 @@ lorentzian:
 # TGS Fitting
 tgs:
   grating_spacing: 3.5276  # TGS probe grating spacing [µm]
+  signal_proportion: 0.1  # proportion of signal to use for fitting (0.0 to 1.0)
   plot: false  # enable/disable TGS fit visualization

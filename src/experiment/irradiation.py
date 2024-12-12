@@ -46,6 +46,7 @@ class Irradiation:
         tgs_df['dpa'] = tgs_df['time[s]'].apply(lambda t: self.dpa(K_tgs, t))
 
         tgs_df = chi_square_filter(tgs_df, 'time[s]', 'f[Hz]', confidence=0.95)
+        tgs_df = chi_square_filter(tgs_df, 'time[s]', 'alpha[m^2s^-1]', confidence=0.95)
 
         tgs_df.to_csv(os.path.join(self.path, 'process', 'irradiation.csv'), index=False)
         srim_df.to_csv(os.path.join(os.path.dirname(self.srim_path), 'srim.csv'), index=False)

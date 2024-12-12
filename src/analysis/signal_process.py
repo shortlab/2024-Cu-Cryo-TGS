@@ -100,7 +100,6 @@ def find_start_time(signal: np.ndarray, grating_spacing: float, time_step: float
         Tuple[int, float]: (start index, start time)
     """
     if null_point < 1 or null_point > 4:
-        print('Null-point start must be between 1 and 4, defaulting to 0 start')
         start_time = signal[0, 0]
 
     if grating_spacing > LARGE_GRATING_THRESHOLD:
@@ -205,8 +204,6 @@ def process_signal(paths: Paths, file_idx: int, pos_file: str, neg_file: str, gr
     else:
         raise ValueError('Invalid heterodyne setting, must be "di-homodyne" or "mono-homodyne"')
     pos, neg = pos[:N], neg[:N]
-
-    # TODO: Add baseline bool functionality
 
     pos[:, 1] -= np.mean(pos[:INITIAL_SAMPLES, 1])
     neg[:, 1] -= np.mean(neg[:INITIAL_SAMPLES, 1])
