@@ -21,6 +21,7 @@ lorentzian:
   frequency_bounds: [0.1, 0.6]  # frequency range for fitting [GHz]
   dc_filter_range: [0, 12000]  # DC filtering range [Hz]
   bimodal_fit: false  # enable bimodal Lorentzian fitting
+  use_super_lorentzian: false  # use super-Lorentzian fitting
   plot: false  # enable/disable FFT and Lorentzian fit visualization
 
 # TGS Fitting
