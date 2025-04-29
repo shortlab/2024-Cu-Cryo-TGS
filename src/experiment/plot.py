@@ -280,13 +280,10 @@ def plot_depth_vs_dpa(df):
     gs = plt.GridSpec(1, 1)
     
     ax_main = plt.subplot(gs[0, :])
-    levels = np.linspace(0, max(df['dpa'] * 1e3), 100)
-    for i in range(len(levels)-1):
-        ax_main.fill_between(df['depth[um]'], 
-                           df['dpa'] * 1e3,
-                           where=(df['dpa'] * 1e3 >= levels[i]),
-                           color='purple',
-                           alpha=0.01)
+    ax_main.fill_between(df['depth[um]'], 
+                       df['dpa'] * 1e3, 
+                       color='purple', 
+                       alpha=0.2)
     probe_depth = 1.12
     pattern = '//'
     ax_main.fill_between([0, probe_depth], 0, 40,

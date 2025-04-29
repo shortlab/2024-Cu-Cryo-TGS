@@ -123,7 +123,7 @@ def plot_combined(paths, file_idx, signal, max_time, start_time, start_idx, func
     ax1.spines['top'].set_visible(False)
     ax1.spines['right'].set_visible(False)
 
-    inset_position = [0.517, 0.54, 0.42, 0.42]
+    inset_position = [0.45, 0.45, 0.42, 0.42]
     background = plt.Rectangle((inset_position[0] - 0.06, inset_position[1] - 0.075),
                              inset_position[2] + 0.09, inset_position[3] + 0.09,
                              facecolor='white', edgecolor='black', transform=fig.transFigure,
@@ -135,7 +135,7 @@ def plot_combined(paths, file_idx, signal, max_time, start_time, start_idx, func
     ax2.plot(frequencies, amplitudes, '-k', linewidth=1.5, label='FFT Signal')
     x_smooth = np.linspace(min(frequencies), max(frequencies), 1000)
     y_fit = lorentzian_function(x_smooth, *lorentzian_popt)
-    ax2.plot(x_smooth, y_fit, '--r', linewidth=1.5, label='Lorentzian Fit')
+    ax2.plot(x_smooth, y_fit, '--r', linewidth=1.5, label='Skewed Super-Lorentzian Fit')
     y_range = ax2.get_ylim()
     ax2.vlines(frequency_bounds[0], y_range[0], y_range[1], color='purple', linestyle='--', linewidth=1.5, label='Frequency Bounds')
     ax2.vlines(frequency_bounds[1], y_range[0], y_range[1], color='purple', linestyle='--', linewidth=1.5)
